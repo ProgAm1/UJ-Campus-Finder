@@ -17,17 +17,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-// 3) Simple root route
+// 3) API routes
+const reportsRouter = require("./routes/reports");
+const contactRouter = require("./routes/contact");
+const claimsRouter  = require("./routes/claims");
+
+app.use("/api/reports", reportsRouter);
+app.use("/api/contact", contactRouter);
+app.use("/api/claims",  claimsRouter);
+
+// 4) Simple root route
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "html", "index.html"));
 });
 
-// 4) Test route
+// 5) Test route
 app.get("/api/test", (req, res) => {
     res.json({ message: "Server is running successfully" });
 });
 
-// 5) Start server
+// 6) Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

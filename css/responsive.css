@@ -1,0 +1,13 @@
+/* UJ Campus Finder — Responsive Styles
+   Team: add your media queries here */
+
+/* ---- Tablet (≤ 768px) ---- */
+@media (max-width: 768px) {
+    /* TODO: stack nav items */
+    /* TODO: adjust card grid to 1 column */
+}
+
+/* ---- Mobile (≤ 480px) ---- */
+@media (max-width: 480px) {
+    /* TODO: further adjustments for small screens */
+}
