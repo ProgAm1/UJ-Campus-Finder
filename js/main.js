@@ -22,6 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // ---- Mobile filter toggle ----
+    const filterHd = document.querySelector('.rpt-sidebar__hd');
+    const rptSidebar = document.querySelector('.rpt-sidebar');
+    if (filterHd && rptSidebar) {
+        filterHd.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900 && e.target.id !== 'clearFilters') {
+                rptSidebar.classList.toggle('is-open');
+            }
+        });
+    }
+
     // TODO: handle claim form submission to POST /api/claims
     // TODO: handle contact form submission to POST /api/contact
 });
@@ -141,17 +152,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const statusPill = `<span class="rcard__status rcard__status--${r.status}">${statusLabels[r.status] || r.status}</span>`;
 
         const claimBtn = !isLost
-            ? `<a href="claim.html" class="rcard-btn rcard-btn--claim"><i class="fa-solid fa-hand"></i> Claim Item</a>`
+            ? `<a href="claim.html?id=${r.id}" class="rcard-btn rcard-btn--claim"><i class="fa-solid fa-hand"></i> Claim Item</a>`
             : '';
 
         return `
 <div class="report-card report-card--${r.type}"
      data-type="${r.type}"
-     data-cat="${r.category}"
      data-loc="${r.location}"
      data-status="${r.status}"
      data-date="${r.date}"
-     data-search="${(r.title + ' ' + r.desc + ' ' + r.location + ' ' + r.category + ' ' + r.reporter).toLowerCase()}">
+     data-search="${(r.title + ' ' + r.desc + ' ' + r.location + ' ' + r.reporter).toLowerCase()}">
     <div class="rcard__strip"></div>
     <div class="rcard__inner">
         <div class="rcard__head">
@@ -162,7 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <h3 class="rcard__title">${r.title}</h3>
             <div class="rcard__meta">
                 <span class="rcard__mi"><i class="fa-solid fa-location-dot"></i> ${r.location}</span>
-                <span class="rcard__mi"><i class="fa-solid fa-tag"></i> ${r.category}</span>
                 <span class="rcard__mi"><i class="fa-regular fa-calendar"></i> ${fmtDate(r.date)}</span>
             </div>
             <p class="rcard__desc">${r.desc}</p>
@@ -170,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="rcard__foot">
             <span class="rcard__reporter"><i class="fa-solid fa-circle-user"></i> ${r.reporter}</span>
             <div class="rcard__actions">
-                <button class="rcard-btn rcard-btn--view" type="button">
+                <button class="rcard-btn rcard-btn--view" type="button" data-id="${r.id}">
                     <i class="fa-solid fa-eye"></i> View Details
                 </button>
                 ${claimBtn}
@@ -183,14 +192,12 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ---- Collect active filter values ---- */
     function getFilters() {
         const typeEl = document.querySelector('input[name="filterType"]:checked');
-        const catEls = [...document.querySelectorAll('input[name="filterCat"]:checked')];
         const locEls = [...document.querySelectorAll('input[name="filterLoc"]:checked')];
         const stEls  = [...document.querySelectorAll('input[name="filterStatus"]:checked')];
         const searchEl = document.getElementById('searchInput');
         const sortEl   = document.getElementById('sortSelect');
         return {
             type:   typeEl ? typeEl.value : 'all',
-            cats:   catEls.map(el => el.value),
             locs:   locEls.map(el => el.value),
             statuses: stEls.map(el => el.value),
             search: searchEl ? searchEl.value.toLowerCase().trim() : '',
@@ -204,12 +211,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let list = [...MOCK_REPORTS];
 
         if (f.type !== 'all')      list = list.filter(r => r.type === f.type);
-        if (f.cats.length)         list = list.filter(r => f.cats.includes(r.category));
         if (f.locs.length)         list = list.filter(r => f.locs.includes(r.location));
         if (f.statuses.length)     list = list.filter(r => f.statuses.includes(r.status));
         if (f.search) {
             list = list.filter(r => {
-                const hay = (r.title + ' ' + r.desc + ' ' + r.location + ' ' + r.category + ' ' + r.reporter).toLowerCase();
+                const hay = (r.title + ' ' + r.desc + ' ' + r.location + ' ' + r.reporter).toLowerCase();
                 return hay.includes(f.search);
             });
         }
@@ -261,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function resetFilters() {
         const allRadio = document.querySelector('input[name="filterType"][value="all"]');
         if (allRadio) allRadio.checked = true;
-        document.querySelectorAll('input[name="filterCat"], input[name="filterLoc"]')
+        document.querySelectorAll('input[name="filterLoc"]')
             .forEach(el => { el.checked = false; });
         document.querySelectorAll('input[name="filterStatus"]')
             .forEach(el => { el.checked = el.value === 'active'; });
@@ -352,7 +358,6 @@ document.addEventListener("DOMContentLoaded", () => {
         /* Validation fields config */
         const FIELDS = [
             { id: 'fItemTitle',   errId: 'errItemTitle',   label: 'Item name' },
-            { id: 'fItemCat',     errId: 'errItemCat',     label: 'Category' },
             { id: 'fItemLoc',     errId: 'errItemLoc',     label: 'Location' },
             { id: 'fItemDate',    errId: 'errItemDate',    label: 'Date' },
             { id: 'fItemDesc',    errId: 'errItemDesc',    label: 'Description' },
@@ -404,7 +409,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 id:       `RPT-2026-${String(MOCK_REPORTS.length + 1).padStart(3, '0')}`,
                 type:     typeHidden ? typeHidden.value : 'lost',
                 title:    document.getElementById('fItemTitle').value.trim(),
-                category: document.getElementById('fItemCat').value,
                 location: document.getElementById('fItemLoc').value,
                 date:     document.getElementById('fItemDate').value,
                 desc:     document.getElementById('fItemDesc').value.trim(),
@@ -433,6 +437,65 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    /* ---- View Details Modal Logic ---- */
+    function initDetailsModal() {
+        const overlay = document.getElementById('detailsModal');
+        const closeBtn = document.getElementById('detailsModalClose');
+        const cancelBtn = document.getElementById('detailsModalCancel');
+        const bodyEl = document.getElementById('detailsModalBody');
+        const grid = document.getElementById('reportsGrid');
+
+        if (!overlay || !grid) return;
+
+        const closeModal = () => {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        };
+
+        closeBtn?.addEventListener('click', closeModal);
+        cancelBtn?.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+        });
+
+        grid.addEventListener('click', (e) => {
+            const btn = e.target.closest('.rcard-btn--view');
+            if (!btn) return;
+            
+            const rId = btn.dataset.id;
+            const report = MOCK_REPORTS.find(r => r.id === rId);
+            if (!report) return;
+
+            // Populate body
+            bodyEl.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <strong style="color: var(--text-color);"><i class="fa-solid fa-tag"></i> Item Name:</strong> ${report.title}
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong style="color: var(--text-color);"><i class="fa-solid fa-location-dot"></i> Location:</strong> ${report.location}
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong style="color: var(--text-color);"><i class="fa-regular fa-calendar"></i> Date:</strong> ${fmtDate(report.date)}
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong style="color: var(--text-color);"><i class="fa-solid fa-circle-info"></i> Status:</strong> <span style="text-transform: capitalize;">${report.status}</span>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong style="color: var(--text-color);"><i class="fa-solid fa-align-left"></i> Description:</strong>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted);">${report.desc || 'No description provided.'}</p>
+                </div>
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <strong style="color: var(--text-color);"><i class="fa-solid fa-user"></i> Reported by:</strong> ${report.reporter}
+                </div>
+            `;
+
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
     /* ---- Wire up the reports page ---- */
     function initReportsPage() {
         if (!document.getElementById('reportsGrid')) return;
@@ -442,7 +505,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         /* Filters */
         document.querySelectorAll(
-            'input[name="filterType"], input[name="filterCat"], input[name="filterLoc"], input[name="filterStatus"]'
+            'input[name="filterType"], input[name="filterLoc"], input[name="filterStatus"]'
         ).forEach(el => el.addEventListener('change', renderReports));
 
         /* Search */
@@ -472,8 +535,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         /* Modal */
         initModal();
+        initDetailsModal();
     }
 
-    document.addEventListener('DOMContentLoaded', initReportsPage);
+    /* ---- Wire up the claim page ---- */
+    function initClaimPage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const reportId = urlParams.get('id');
+        if (reportId) {
+            const inputEl = document.getElementById('cReportId');
+            if (inputEl) {
+                inputEl.value = reportId;
+                inputEl.setAttribute('readonly', true);
+                inputEl.style.backgroundColor = 'var(--color-bg)';
+                inputEl.style.color = 'var(--color-text-muted)';
+                inputEl.style.cursor = 'not-allowed';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initReportsPage();
+        initClaimPage();
+    });
 
 })();

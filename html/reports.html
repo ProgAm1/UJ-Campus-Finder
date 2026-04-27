@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports - UJ Campus Finder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/responsive.css">
 </head>
+
 <body>
 
     <!-- ===== NAVIGATION ===== -->
@@ -60,7 +63,8 @@
                         </div>
                         <div class="action-card__body">
                             <h2 class="action-card__title">Report a Lost Item</h2>
-                            <p class="action-card__desc">Submit details about something you've lost on campus so others can help you find it.</p>
+                            <p class="action-card__desc">Submit details about something you've lost on campus so others
+                                can help you find it.</p>
                         </div>
                         <div class="action-card__arrow">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -73,7 +77,8 @@
                         </div>
                         <div class="action-card__body">
                             <h2 class="action-card__title">Report a Found Item</h2>
-                            <p class="action-card__desc">Found something on campus? Help return it to its rightful owner by submitting a report.</p>
+                            <p class="action-card__desc">Found something on campus? Help return it to its rightful owner
+                                by submitting a report.</p>
                         </div>
                         <div class="action-card__arrow">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -116,13 +121,8 @@
                 <div class="rpt-controls">
                     <div class="rpt-search">
                         <i class="fa-solid fa-magnifying-glass rpt-search__ico"></i>
-                        <input
-                            type="search"
-                            id="searchInput"
-                            class="rpt-search__input"
-                            placeholder="Search by item name, location, or keywords…"
-                            autocomplete="off"
-                        >
+                        <input type="search" id="searchInput" class="rpt-search__input"
+                            placeholder="Search by item name, location, or keywords…" autocomplete="off">
                     </div>
                     <div class="rpt-controls__right">
                         <div class="view-toggle">
@@ -149,10 +149,13 @@
                     <aside class="rpt-sidebar">
                         <div class="rpt-sidebar__hd">
                             <span><i class="fa-solid fa-sliders"></i> Filters</span>
-                            <button class="rpt-clear-btn" id="clearFilters" type="button">Clear all</button>
+                            <div style="display: flex; gap: 1rem; align-items: center;">
+                                <button class="rpt-clear-btn" id="clearFilters" type="button">Clear all</button>
+                                <i class="fa-solid fa-chevron-down filter-arrow" style="display: none;"></i>
+                            </div>
                         </div>
 
-                        <div class="filter-grp">
+                        <div class="rpt-sidebar__body">                        <div class="filter-grp">
                             <h3 class="filter-grp__ttl">Report Type</h3>
                             <div class="filter-opts">
                                 <label class="filter-opt">
@@ -171,38 +174,36 @@
                         </div>
 
                         <div class="filter-grp">
-                            <h3 class="filter-grp__ttl">Category</h3>
-                            <div class="filter-opts">
-                                <label class="filter-opt"><input type="checkbox" name="filterCat" value="Electronics"><span>Electronics</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterCat" value="Books & Stationery"><span>Books &amp; Stationery</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterCat" value="Clothing & Accessories"><span>Clothing &amp; Accessories</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterCat" value="Bags & Wallets"><span>Bags &amp; Wallets</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterCat" value="Keys & Cards"><span>Keys &amp; Cards</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterCat" value="Sports Equipment"><span>Sports Equipment</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterCat" value="Other"><span>Other</span></label>
-                            </div>
-                        </div>
-
-                        <div class="filter-grp">
                             <h3 class="filter-grp__ttl">Location</h3>
                             <div class="filter-opts">
-                                <label class="filter-opt"><input type="checkbox" name="filterLoc" value="Central Library"><span>Central Library</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterLoc" value="Cafeteria"><span>Cafeteria</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterLoc" value="Sports Complex"><span>Sports Complex</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterLoc" value="Engineering Building"><span>Engineering Building</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterLoc" value="Science Building"><span>Science Building</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterLoc" value="Parking Area"><span>Parking Area</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterLoc" value="Admin Block"><span>Admin Block</span></label>
+                                <label class="filter-opt"><input type="checkbox" name="filterLoc"
+                                        value="Central Library"><span>Central Library</span></label>
+                                <label class="filter-opt"><input type="checkbox" name="filterLoc"
+                                        value="Cafeteria"><span>Cafeteria</span></label>
+                                <label class="filter-opt"><input type="checkbox" name="filterLoc"
+                                        value="Sports Complex"><span>Sports Complex</span></label>
+                                <label class="filter-opt"><input type="checkbox" name="filterLoc"
+                                        value="Engineering Building"><span>Engineering Building</span></label>
+                                <label class="filter-opt"><input type="checkbox" name="filterLoc"
+                                        value="Science Building"><span>Science Building</span></label>
+                                <label class="filter-opt"><input type="checkbox" name="filterLoc"
+                                        value="Parking Area"><span>Parking Area</span></label>
+                                <label class="filter-opt"><input type="checkbox" name="filterLoc"
+                                        value="Admin Block"><span>Admin Block</span></label>
                             </div>
                         </div>
 
                         <div class="filter-grp">
                             <h3 class="filter-grp__ttl">Status</h3>
                             <div class="filter-opts">
-                                <label class="filter-opt"><input type="checkbox" name="filterStatus" value="active" checked><span>Active</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterStatus" value="claimed"><span>Claimed</span></label>
-                                <label class="filter-opt"><input type="checkbox" name="filterStatus" value="resolved"><span>Resolved</span></label>
+                                <label class="filter-opt"><input type="checkbox" name="filterStatus" value="active"
+                                        checked><span>Active</span></label>
+                                <label class="filter-opt"><input type="checkbox" name="filterStatus"
+                                        value="claimed"><span>Claimed</span></label>
+                                <label class="filter-opt"><input type="checkbox" name="filterStatus"
+                                        value="resolved"><span>Resolved</span></label>
                             </div>
+                        </div>
                         </div>
                     </aside>
 
@@ -257,26 +258,10 @@
                     <input type="hidden" id="reportType" value="lost">
                 </div>
 
-                <div class="fm-row">
-                    <div class="fm-group">
-                        <label class="fm-label" for="fItemTitle">Item Name <span class="fm-req">*</span></label>
-                        <input type="text" class="fm-ctrl" id="fItemTitle" placeholder="e.g. Blue backpack, iPhone 13…">
-                        <span class="fm-err" id="errItemTitle"></span>
-                    </div>
-                    <div class="fm-group">
-                        <label class="fm-label" for="fItemCat">Category <span class="fm-req">*</span></label>
-                        <select class="fm-ctrl" id="fItemCat">
-                            <option value="">Select category</option>
-                            <option>Electronics</option>
-                            <option>Books &amp; Stationery</option>
-                            <option>Clothing &amp; Accessories</option>
-                            <option>Bags &amp; Wallets</option>
-                            <option>Keys &amp; Cards</option>
-                            <option>Sports Equipment</option>
-                            <option>Other</option>
-                        </select>
-                        <span class="fm-err" id="errItemCat"></span>
-                    </div>
+                <div class="fm-group">
+                    <label class="fm-label" for="fItemTitle">Item Name <span class="fm-req">*</span></label>
+                    <input type="text" class="fm-ctrl" id="fItemTitle" placeholder="e.g. Blue backpack, iPhone 13…">
+                    <span class="fm-err" id="errItemTitle"></span>
                 </div>
 
                 <div class="fm-row">
@@ -303,9 +288,9 @@
                 </div>
 
                 <div class="fm-group">
-                    <label class="fm-label" for="fItemDesc">Description <span class="fm-req">*</span></label>
+                    <label class="fm-label" for="fItemDesc">Description </label>
                     <textarea class="fm-ctrl fm-textarea" id="fItemDesc" rows="3"
-                              placeholder="Describe the item — color, brand, any unique features…"></textarea>
+                        placeholder="Describe the item — color, brand, any unique features…"></textarea>
                     <span class="fm-err" id="errItemDesc"></span>
                 </div>
 
@@ -348,6 +333,24 @@
         </div><!-- /rpt-modal -->
     </div><!-- /rpt-overlay -->
 
+    <!-- ===== VIEW DETAILS MODAL ===== -->
+    <div class="rpt-overlay" id="detailsModal" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle">
+        <div class="rpt-modal">
+            <div class="rpt-modal__hd">
+                <h2 class="rpt-modal__title" id="detailsModalTitle">Report Details</h2>
+                <button class="rpt-modal__close" id="detailsModalClose" type="button" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="rpt-modal__body" id="detailsModalBody" style="padding: 1.5rem; line-height: 1.6;">
+                <!-- Content injected by JS -->
+            </div>
+            <div class="rpt-modal__ft">
+                <button class="btn btn--outline" id="detailsModalCancel" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== SUCCESS TOAST ===== -->
     <div class="rpt-toast" id="rptToast" role="alert" aria-live="polite">
         <i class="fa-solid fa-circle-check"></i>
@@ -364,4 +367,5 @@
     <script src="/js/main.js"></script>
     <script src="/js/validation.js"></script>
 </body>
+
 </html>
