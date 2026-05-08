@@ -20,15 +20,15 @@ app.use(cors());
 // 3) API routes
 const reportsRouter = require("./routes/reports");
 const contactRouter = require("./routes/contact");
-const claimsRouter  = require("./routes/claims");
+const claimsRouter = require("./routes/claims");
 
 app.use("/api/reports", reportsRouter);
 app.use("/api/contact", contactRouter);
-app.use("/api/claims",  claimsRouter);
+app.use("/api/claims", claimsRouter);
 
 // 4) Simple root route
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "html", "index.html"));
+    res.sendFile(path.join(__dirname, "..", "index.html"));
 });
 
 // 5) Test route
