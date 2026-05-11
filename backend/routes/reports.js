@@ -96,7 +96,12 @@ router.post("/", (req, res, next) => {
         next();
     });
 }, async (req, res) => {
-    const { type, title, description, location, contact } = req.body;
+    // Trim string inputs so leading/trailing whitespace never reaches the database.
+    const type        = (req.body.type        || "").trim().toLowerCase();
+    const title       = (req.body.title       || "").trim();
+    const description = (req.body.description  || "").trim();
+    const location    = (req.body.location    || "").trim();
+    const contact     = (req.body.contact     || "").trim();
 
     // If a file was uploaded, store its public URL path.
     const image_path = req.file ? `/media/uploads/${req.file.filename}` : null;

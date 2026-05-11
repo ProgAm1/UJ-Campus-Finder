@@ -83,6 +83,27 @@ describe('POST /api/reports', () => {
         expect(res.body.id).toBe(5);
     });
 
+    test('trims whitespace from string fields before saving', async () => {
+        db.query.mockResolvedValueOnce([{ insertId: 6, affectedRows: 1 }]);
+        const res = await request(app)
+            .post('/api/reports')
+            .send({ type: '  lost  ', title: '  Blue Laptop  ', location: '  Library  ', contact: '  me  ' });
+        expect(res.status).toBe(201);
+        const insertParams = db.query.mock.calls[0][1];
+        expect(insertParams[0]).toBe('lost');         // type
+        expect(insertParams[1]).toBe('Blue Laptop');  // title
+        expect(insertParams[3]).toBe('Library');      // location
+        expect(insertParams[5]).toBe('me');           // contact
+    });
+
+    test('returns 400 when only whitespace is sent for required fields', async () => {
+        const res = await request(app)
+            .post('/api/reports')
+            .send({ type: '   ', title: '   ', location: '   ', contact: '   ' });
+        expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
+    });
+
     test('returns 400 when title is missing', async () => {
         const res = await request(app)
             .post('/api/reports')

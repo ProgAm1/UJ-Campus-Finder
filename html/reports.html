@@ -261,14 +261,16 @@
 
                 <div class="fm-group">
                     <label class="fm-label" for="fItemTitle">Item Name <span class="fm-req">*</span></label>
-                    <input type="text" class="fm-ctrl" id="fItemTitle" placeholder="e.g. Blue backpack, iPhone 13…">
+                    <input type="text" class="fm-ctrl" id="fItemTitle" name="title"
+                           required maxlength="120" autocomplete="off"
+                           placeholder="e.g. Blue backpack, iPhone 13…" aria-describedby="errItemTitle">
                     <span class="fm-err" id="errItemTitle"></span>
                 </div>
 
                 <div class="fm-row">
                     <div class="fm-group">
                         <label class="fm-label" for="fItemLoc">Location <span class="fm-req">*</span></label>
-                        <select class="fm-ctrl" id="fItemLoc">
+                        <select class="fm-ctrl" id="fItemLoc" name="location" required aria-describedby="errItemLoc">
                             <option value="">Select location</option>
                             <option>Central Library</option>
                             <option>Cafeteria</option>
@@ -283,14 +285,15 @@
                     </div>
                     <div class="fm-group">
                         <label class="fm-label" for="fItemDate">Date <span class="fm-req">*</span></label>
-                        <input type="date" class="fm-ctrl" id="fItemDate">
+                        <input type="date" class="fm-ctrl" id="fItemDate" name="date" required aria-describedby="errItemDate">
                         <span class="fm-err" id="errItemDate"></span>
                     </div>
                 </div>
 
                 <div class="fm-group">
                     <label class="fm-label" for="fItemDesc">Description </label>
-                    <textarea class="fm-ctrl fm-textarea" id="fItemDesc" rows="3"
+                    <textarea class="fm-ctrl fm-textarea" id="fItemDesc" name="description" rows="3"
+                        maxlength="1000" aria-describedby="errItemDesc"
                         placeholder="Describe the item — color, brand, any unique features…"></textarea>
                     <span class="fm-err" id="errItemDesc"></span>
                 </div>
@@ -298,12 +301,16 @@
                 <div class="fm-row">
                     <div class="fm-group">
                         <label class="fm-label" for="fRepName">Your Name <span class="fm-req">*</span></label>
-                        <input type="text" class="fm-ctrl" id="fRepName" placeholder="Full name">
+                        <input type="text" class="fm-ctrl" id="fRepName" name="reporterName"
+                               required maxlength="60" autocomplete="name"
+                               placeholder="Full name" aria-describedby="errRepName">
                         <span class="fm-err" id="errRepName"></span>
                     </div>
                     <div class="fm-group">
                         <label class="fm-label" for="fRepContact">Contact <span class="fm-req">*</span></label>
-                        <input type="text" class="fm-ctrl" id="fRepContact" placeholder="Email or phone number">
+                        <input type="text" class="fm-ctrl" id="fRepContact" name="reporterContact"
+                               required maxlength="100" autocomplete="email"
+                               placeholder="Email or phone number" aria-describedby="errRepContact">
                         <span class="fm-err" id="errRepContact"></span>
                     </div>
                 </div>

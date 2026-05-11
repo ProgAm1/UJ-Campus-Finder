@@ -32,12 +32,29 @@ router.get("/", async (req, res) => {
 // Body: { report_id, claimant, student_id, email, phone, message }
 // -----------------------------------------------------------------
 router.post("/", async (req, res) => {
-    const { report_id, claimant, student_id, email, phone, message } = req.body;
+    const report_id  = req.body.report_id;
+    const claimant   = (req.body.claimant   || "").trim();
+    const student_id = (req.body.student_id || "").trim();
+    const email      = (req.body.email      || "").trim();
+    const phone      = (req.body.phone      || "").trim();
+    const message    = (req.body.message    || "").trim();
 
     if (!report_id || !claimant) {
         return res.status(400).json({
             success: false,
             message: "report_id and claimant are required"
+        });
+    }
+    if (!/^[1-9][0-9]*$/.test(String(report_id).trim())) {
+        return res.status(400).json({
+            success: false,
+            message: "report_id must be a positive number"
+        });
+    }
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({
+            success: false,
+            message: "Please provide a valid email address"
         });
     }
 

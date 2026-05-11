@@ -77,6 +77,35 @@ describe('POST /api/claims', () => {
         expect(res.status).toBe(400);
     });
 
+    test('returns 400 when report_id is not a positive number', async () => {
+        const res = await request(app)
+            .post('/api/claims')
+            .send({ report_id: 'abc', claimant: 'Someone' });
+        expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
+    });
+
+    test('returns 400 when email is provided but malformed', async () => {
+        const res = await request(app)
+            .post('/api/claims')
+            .send({ report_id: 2, claimant: 'Someone', email: 'not-an-email' });
+        expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
+    });
+
+    test('trims whitespace from claimant before saving', async () => {
+        db.query
+            .mockResolvedValueOnce([[{ id: 3 }]])
+            .mockResolvedValueOnce([{ insertId: 12, affectedRows: 1 }]);
+        const res = await request(app)
+            .post('/api/claims')
+            .send({ report_id: 3, claimant: '  Ali  ' });
+        expect(res.status).toBe(201);
+        // second db.query call is the INSERT; its params array is the 2nd arg
+        const insertParams = db.query.mock.calls[1][1];
+        expect(insertParams[1]).toBe('Ali');
+    });
+
     test('returns 404 when the referenced report does not exist', async () => {
         db.query.mockResolvedValueOnce([[]]); // report lookup returns empty
         const res = await request(app)
